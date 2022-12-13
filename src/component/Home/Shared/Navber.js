@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { client } from '../../Lib/Client';
 
 const Navber = () => {
+  const [logo, setLogo] = useState([])
+
+  useEffect(() => {
+    client.fetch(
+      `*[_type == "logo"] {
+        logoImage {
+          asset -> {
+            _id,
+            url
+          },
+          alt,
+        },
+      
+      }`
+    )
+      .then((data) => {
+        setLogo(data);
+        console.log(data)
+      })
+      .catch(console.error);
+
+  }, [])
+
+
+
+
   const manuItem = <>
     <li><Link to='/home'>Home</Link></li>
     <li><Link to='/resume'>Resume</Link></li>
@@ -12,6 +39,8 @@ const Navber = () => {
     <li><Link to='/blog'>Blog</Link></li>
 
   </>
+
+
 
 
 
@@ -30,7 +59,7 @@ const Navber = () => {
 
             </ul>
           </div>
-          <Link className="" to='/' ><span className=''><img src="https://i.ibb.co/5rY85C2/Logo-Makr-1-TLNhj-1.png" alt="logo" /></span></Link>
+          <Link className="w-36" to='/' ><span className=''><img src={logo[0]?.logoImage.asset.url} alt="logo" /></span></Link>
         </div>
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal p-0">
