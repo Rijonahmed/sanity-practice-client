@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
-import { client } from '../Lib/Client';
+import { client } from '../../Lib/Client';
 import "swiper/css";
 import "swiper/css/pagination";
 
-import "./SpecialsStyle.css";
+import './SpecialsStyle.css'
 
 const ResortSpecials = () => {
   const [Specials, setSpecials] = useState([])

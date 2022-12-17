@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { client } from '../Lib/Client';
+import { client } from '../../Lib/Client';
 
 const ResortFeatures = () => {
   const [stories, setStories] = useState([])

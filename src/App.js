@@ -1,21 +1,25 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Banner from './component/Home/Banner';
-import OurRooms from './component/Home/OurRooms';
-import ResortFeatures from './component/Home/ResortFeatures';
-import ResortSpecials from './component/Home/ResortSpecials';
+
+import Overview from './component/Home/Overview';
+
 import Footer from './component/Home/Shared/Footer';
 import Navber from './component/Home/Shared/Navber';
-import WelcomePage from './component/Home/WelcomePage';
+import ResortSpecials from './component/Home/Specials/ResortSpecials';
+
 
 function App() {
   return (
     <div className="App">
       <Navber></Navber>
-      <Banner></Banner>
-      <WelcomePage />
-      <ResortFeatures />
-      <OurRooms />
-      <ResortSpecials />
+      <Routes>
+        <Route path='/' element={<Overview />}></Route>
+        <Route path='/overview' element={<Overview />}></Route>
+        <Route path='/specials' element={<ResortSpecials />}></Route>
+      </Routes>
+
+
+
       <Footer />
     </div>
   );
