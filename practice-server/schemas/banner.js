@@ -33,28 +33,9 @@ export default defineType({
         hotspot: true,
       },
     }),
-    defineField({
-      name: 'sliderImage2',
-      title: 'Slider Image 2',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'sliderImage3',
-      title: 'Slider Image 3',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      title: 'Video URL',
-      name: 'videoUrl',
-      type: 'url'
 
-    }),
+
+
 
     defineField({
       name: 'categories',

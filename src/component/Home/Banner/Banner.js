@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -12,9 +12,39 @@ import "./BannerStyles.css";
 
 // import required modules
 import { Autoplay, Pagination, Navigation, Parallax } from "swiper";
+import { client } from "../../Lib/Client";
 
 
 const Banner = () => {
+
+  const [bannerInfo, setBannerInfo] = useState([])
+
+  useEffect(() => {
+    client.fetch(
+      `*[_type == "banner"] {
+        title,
+        off,
+        slug,
+        body,
+        publishedAt,
+        sliderImage1 {
+          asset -> {
+            _id,
+            url
+          },
+          alt,
+        },
+        "name": authou -> name,
+      }| order(publishedAt desc)`
+    )
+      .then((data) => {
+        setBannerInfo(data);
+
+      })
+      .catch(console.error);
+
+  }, [])
+  console.log(bannerInfo)
 
   return (
     <Swiper
@@ -46,69 +76,36 @@ const Banner = () => {
       ></div>
 
 
-      <SwiperSlide>
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="title" data-swiper-parallax="-300">
-              Messi
-            </div>
-            <div className="subtitle" data-swiper-parallax="-200">
-              Subtitle
-            </div>
-            <div className="text" data-swiper-parallax="-100">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
-                laoreet justo vitae porttitor porttitor. Suspendisse
-              </p>
-            </div>
-          </div>
-          <img className="max-w-xl" src="https://futhead.cursecdn.com/static/img/21/players_alt/p117598535.png" alt="" />
-        </div>
-      </SwiperSlide>
+      {
+        bannerInfo.map((item, idx) => {
+          return (
 
 
-      <SwiperSlide>
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="title" data-swiper-parallax="-300">
-              Neymar
-            </div>
-            <div className="subtitle" data-swiper-parallax="-200">
-              Subtitle
-            </div>
-            <div className="text" data-swiper-parallax="-100">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
-                laoreet justo vitae porttitor porttitor. Suspendisse
-              </p>
-            </div>
-          </div>
-          <img className="max-w-xl" src="https://futhead.cursecdn.com/static/img/21/players_alt/p117631383.png" alt="" />
-        </div>
-      </SwiperSlide>
+            <SwiperSlide key={idx}>
+              <div className="flex justify-around items-center">
+                <div>
+                  <div className="title text-red-600 font-bold" data-swiper-parallax="-300">
+                    {item?.title}
+                  </div>
+                  <div className="subtitle" data-swiper-parallax="-200">
+                    Subtitle
+                  </div>
+                  <div className="text" data-swiper-parallax="-100">
+                    <p>
+                      {`${item?.body[0]?.children[0].text.substring(0, 90)}...`}
+                    </p>
+                  </div>
+                </div>
+                <img className="max-w-xl" src={item?.sliderImage1.asset.url} alt="" />
+              </div>
+            </SwiperSlide>
 
-      <SwiperSlide>
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="title" data-swiper-parallax="-300">
-              Ronaldo
-            </div>
-            <div className="subtitle" data-swiper-parallax="-200">
-              Subtitle
-            </div>
-            <div className="text" data-swiper-parallax="-100">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla
-                laoreet justo vitae porttitor porttitor. Suspendisse
-              </p>
-            </div>
-          </div>
-          <img className="max-w-xl" src="https://www.pngarts.com/files/5/Cristiano-Ronaldo-Free-PNG-Image.png" alt="" />
-        </div>
-      </SwiperSlide>
+          )
+        })
+      }
+
+
+
 
 
 
